@@ -1,0 +1,12 @@
+Bootstrap: library
+From: ubuntu:18.04
+Stage: build
+
+%post
+    apt-get update && \
+    apt-get install -y software-properties-common && \
+    add-apt-repository universe && \
+    apt-get update && \
+    apt-get install -y gromacs && \
+    apt-get install -y gromacs-openmpi
+

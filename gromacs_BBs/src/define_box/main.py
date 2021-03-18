@@ -1,0 +1,37 @@
+from permedcoe import Container
+from permedcoe import Binary
+from permedcoe import Task
+
+from permedcoe import FILE_IN
+from permedcoe import FILE_OUT
+
+# Container definition for this building block
+GROMACS_CONTAINER = "/home/javier/gitlab/projects/permedcoe/gromacs_BBs/image/gromacs.sif"
+
+
+@Container(engine="SINGULARITY", image=GROMACS_CONTAINER)
+@Binary(binary='gmx')
+@Task(structure=FILE_IN,
+      structure_newbox=FILE_OUT)
+def define_box(mode='editconf',
+               structure_flag='-f', structure=None,
+               structure_newbox_flag='-o', structure_newbox=None,
+               center_flag='-c',
+               distance_flag='-d', distance='1.0',
+               boxtype_flag='-bt', boxtype='cubic'):
+    # Command: gmx editconf -f structure.gro -o structure_newbox.gro -c -d 1.0 -bt cubic
+    pass
+
+
+def invoke(input, output, config):
+    """ Common interface.
+
+    Args:
+        input (str): Input file path.
+        output (str): Output directory path.
+        config (dict): Configuration dictionary.
+    Returns:
+        None
+    """
+    define_box(structure=input,
+               structure_newbox=output)
