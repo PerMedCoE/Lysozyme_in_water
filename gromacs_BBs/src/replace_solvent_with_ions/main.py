@@ -6,8 +6,8 @@ from permedcoe import FILE_IN
 from permedcoe import FILE_OUT
 from permedcoe import Type, StdIOStream, STDIN
 
-# Container definition for this building block
-GROMACS_CONTAINER = "/home/javier/gitlab/projects/permedcoe/gromacs_BBs/image/gromacs.sif"
+# Import single container definition
+from gromacs_BBs_commons.image import GROMACS_CONTAINER
 
 
 @Container(engine="SINGULARITY", image=GROMACS_CONTAINER)

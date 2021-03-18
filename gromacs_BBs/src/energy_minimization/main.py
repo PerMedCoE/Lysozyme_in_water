@@ -7,11 +7,11 @@ from permedcoe import Task
 from permedcoe import FILE_IN
 from permedcoe import FILE_OUT
 
-# Container definition for this building block
-GROMACS_CONTAINER = "/home/javier/gitlab/projects/permedcoe/gromacs_BBs/image/gromacs.sif"
+# Import single container definition
+from gromacs_BBs_commons.image import GROMACS_CONTAINER
 
-computing_units = "24"
-computing_nodes = "1"
+# computing_units = "24"
+# computing_nodes = "1"
 
 @Container(engine="SINGULARITY", image=GROMACS_CONTAINER)
 # @Constraint(computing_units=computing_units)

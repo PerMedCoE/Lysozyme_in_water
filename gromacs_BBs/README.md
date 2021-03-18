@@ -23,7 +23,7 @@ This package provides a set of **Building Blocks (BB)** for Gromacs using the **
 ### Requirements
 
 - Python >= 3.6
-- Singularity
+- [Singularity](https://singularity.lbl.gov/docs-installation)
 
 ### Installation
 
@@ -31,7 +31,7 @@ There are two ways to install this package (from Pypi and manually):
 
 - From Pypi:
 
-  This package is NOT YET publicly available in Pypi:
+  This package is **NOT YET** publicly available in Pypi:
 
   ```bash
   pip install gromacs_BB
@@ -73,18 +73,19 @@ The `gromacs_BB` package provides a clear interface that allows it to be used wi
 
   ```text
   $ generate_topology -h
-  usage: generate_topology [-h] [-d] [-l {debug,info,warning,error,critical}] [--tmpdir TMPDIR]
-                          [--processes PROCESSES] [--gpus GPUS] [--memory MEMORY]
-                          [--mount_points MOUNT_POINTS]
-                          input output config
-
-  positional arguments:
-    input                 Input file or directory path
-    output                Output file or directory path
-    config                Configuration file path
+  usage: generate_topology [-h] [-i INPUT [INPUT ...]] [-o OUTPUT [OUTPUT ...]] [-c CONFIG] [-d]
+                         [-l {debug,info,warning,error,critical}] [--tmpdir TMPDIR]
+                         [--processes PROCESSES] [--gpus GPUS] [--memory MEMORY]
+                         [--mount_points MOUNT_POINTS]
 
   optional arguments:
     -h, --help            show this help message and exit
+    -i INPUT [INPUT ...], --input INPUT [INPUT ...]
+                          Input file/s or directory path/s
+    -o OUTPUT [OUTPUT ...], --output OUTPUT [OUTPUT ...]
+                          Output file/s or directory path/s
+    -c CONFIG, --config CONFIG
+                          Configuration file path
     -d, --debug           Enable Building Block debug mode. Overrides log_level
     -l {debug,info,warning,error,critical}, --log_level {debug,info,warning,error,critical}
                           Set logging level
