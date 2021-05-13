@@ -115,7 +115,7 @@ The `gromacs_BB` package provides a clear interface that allows it to be used wi
     ```python
     from generate_topology import generate_topology
 
-    @Task(protein=FILE_IN,
+    @task(protein=FILE_IN,
           structure=FILE_OUT,
           topology=FILE_OUT)
     def generate_topology(mode='pdb2gmx',

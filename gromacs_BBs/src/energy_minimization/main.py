@@ -1,8 +1,8 @@
-from permedcoe import Container
-# from permedcoe import Constraint
-# from permedcoe import Mpi
-from permedcoe import Binary
-from permedcoe import Task
+from permedcoe import container
+# from permedcoe import constraint
+# from permedcoe import mpi
+from permedcoe import binary
+from permedcoe import task
 
 from permedcoe import FILE_IN
 from permedcoe import FILE_OUT
@@ -13,11 +13,11 @@ from gromacs_BBs_commons.image import GROMACS_CONTAINER
 # computing_units = "24"
 # computing_nodes = "1"
 
-@Container(engine="SINGULARITY", image=GROMACS_CONTAINER)
-# @Constraint(computing_units=computing_units)
-# @Mpi(runner="mpirun", binary="gmx_mpi", computing_nodes=computing_nodes)
-@Binary(binary='gmx')   # mpi candidate
-@Task(em=FILE_IN,
+@container(engine="SINGULARITY", image=GROMACS_CONTAINER)
+# @constraint(computing_units=computing_units)
+# @mpi(runner="mpirun", binary="gmx_mpi", computing_nodes=computing_nodes)
+@binary(binary='gmx')   # mpi candidate
+@task(em=FILE_IN,
       em_energy=FILE_OUT)
 def energy_minimization(mode='mdrun',
                         verbose_flag='-v',

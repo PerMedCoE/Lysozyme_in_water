@@ -1,6 +1,6 @@
-from permedcoe import Container
-from permedcoe import Binary
-from permedcoe import Task
+from permedcoe import container
+from permedcoe import binary
+from permedcoe import task
 
 from permedcoe import FILE_IN
 from permedcoe import FILE_OUT
@@ -9,9 +9,9 @@ from permedcoe import FILE_OUT
 from gromacs_BBs_commons.image import GROMACS_CONTAINER
 
 
-@Container(engine="SINGULARITY", image=GROMACS_CONTAINER)
-@Binary(binary='gmx')
-@Task(structure=FILE_IN,
+@container(engine="SINGULARITY", image=GROMACS_CONTAINER)
+@binary(binary='gmx')
+@task(structure=FILE_IN,
       structure_newbox=FILE_OUT)
 def define_box(mode='editconf',
                structure_flag='-f', structure=None,

@@ -1,6 +1,6 @@
-from permedcoe import Container
-from permedcoe import Binary
-from permedcoe import Task
+from permedcoe import container
+from permedcoe import binary
+from permedcoe import task
 
 from permedcoe import FILE_IN
 from permedcoe import FILE_OUT
@@ -10,9 +10,9 @@ from permedcoe import Type, StdIOStream, STDIN
 from gromacs_BBs_commons.image import GROMACS_CONTAINER
 
 
-@Container(engine="SINGULARITY", image=GROMACS_CONTAINER)
-@Binary(binary='gmx')
-@Task(ions=FILE_IN,
+@container(engine="SINGULARITY", image=GROMACS_CONTAINER)
+@binary(binary='gmx')
+@task(ions=FILE_IN,
       output=FILE_OUT,
       topology=FILE_IN,
       group={Type:FILE_IN, StdIOStream:STDIN})
