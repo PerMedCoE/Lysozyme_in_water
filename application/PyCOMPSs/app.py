@@ -27,8 +27,12 @@ from assemble_tpr import assemble_tpr
 from define_box import define_box
 from energy_analysis import energy_analysis
 from energy_minimization import energy_minimization
-from generate_topology import generate_topology
+from generate_topology import generate_topology, adapt_itp, clean_itps
 from replace_solvent_with_ions import replace_solvent_with_ions
+from equilibrate import equilibrate
+
+# PyCOMPSs specific imports
+from pycompss.api.api import compss_barrier
 
 
 def main(dataset_path, output_path, config_path):
@@ -49,9 +53,12 @@ def main(dataset_path, output_path, config_path):
         # 1st step - Generate topology
         structure = join(output_path, name + '.gro')
         topology = join(output_path, name + '.top')
+        topology_itp = join(output_path, name + '_top.itp')
         generate_topology(protein=pdb,
                           structure=structure,
-                          topology=topology)
+                          topology=topology,
+                          topology_itp=topology_itp)
+        adapt_itp(topology, topology_itp)
         # 2nd step - Define box
         structure_newbox = join(output_path, name + '_newbox.gro')
         define_box(structure=structure,
@@ -83,15 +90,54 @@ def main(dataset_path, output_path, config_path):
                      protein_solv=protein_solv_ions,
                      topology=topology,
                      output=em)
-        em_energy = join(output_path, name + '_em_energy.edr')
-        energy_minimization(em=em,
-                            em_energy=em_energy)
+        em_energy = join(output_path, name + '_em.tpr')
+        em_energy_structure = join(output_path, name + '_em.gro')
+        em_energy_file = join(output_path, name + '_em.edr')
+        em_energy_log = join(output_path, name + '_em.log')
+        em_energy_trajectory = join(output_path, name + '_em.trr')
+        energy_minimization(energy=em_energy,
+                            structure=em_energy_structure,
+                            file=em_energy_file,
+                            log=em_energy_log,
+                            trajectory=em_energy_trajectory)
         # 6th step - Energy analysis (generate xvg image)
         energy_result = join(output_path, name + '_potential.xvg')
         energy_selection = join(config_path, 'energy.selection')
-        energy_analysis(em=em_energy,
+        energy_analysis(em=em_energy_file,
                         output=energy_result,
                         selection=energy_selection)
+        #################################################
+        ################### SOLUTION ####################
+        #################################################
+        # 7th step - Equilibrate
+        equilibrate_conf = join(config_path, 'nvt.mdp')
+        equilibrate_output = join(output_path, name + '_nvt.tpr')
+        equilibrate(conf=equilibrate_conf,
+                    structure_file=em_energy_structure,
+                    structure2_file=em_energy_structure,
+                    topology=topology,
+                    output=equilibrate_output)
+        # Reuse energy minimization
+        equilibrate_structure = join(output_path, name + '_eq.gro')
+        equilibrate_file = join(output_path, name + '_eq.edr')
+        equilibrate_log = join(output_path, name + '_eq.log')
+        equilibrate_trajectory = join(output_path, name + '_eq.trr')
+        energy_minimization(energy=equilibrate_output,
+                            structure=equilibrate_structure,
+                            file=equilibrate_file,
+                            log=equilibrate_log,
+                            trajectory=equilibrate_trajectory,
+                            steps="100")
+        # Analyse energy again (temperature)
+        equilibrate_result = join(output_path, name + '_temperature.xvg')
+        temperature_selection = join(config_path, 'temperature.selection')
+        energy_analysis(em=equilibrate_file,
+                        output=equilibrate_result,
+                        selection=temperature_selection)
+        #################################################
+        # Cleanup
+        compss_barrier()
+        clean_itps()
 
 
 if __name__=='__main__':

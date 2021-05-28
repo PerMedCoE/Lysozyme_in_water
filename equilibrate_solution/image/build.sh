@@ -1,0 +1,1 @@
+sudo /usr/local/bin/singularity build --notest gromacs.sif gromacs.def
