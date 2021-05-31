@@ -107,17 +107,16 @@ def main(dataset_path, output_path, config_path):
                         output=energy_result,
                         selection=energy_selection)
         #################################################
-        ################### EXERCISE ####################
+        ################### SOLUTION ####################
         #################################################
         # 7th step - Equilibrate
         equilibrate_conf = join(config_path, 'nvt.mdp')
         equilibrate_output = join(output_path, name + '_nvt.tpr')
-        # TODO: Define Building Block call
-        ___________(input1=________,  # TODO: conf = nvt.mdp
-                    input2=________,  # TODO: structure_file  = <PROTEIN>_em.gro - TIP: em_energy_structure
-                    input3=________,  # TODO: structure2_file = <PROTEIN>_em.gro - TIP: em_energy_structure
-                    input4=________,  # TODO: topology = <PROTEIN>.top - TIP: topology
-                    output=________)  # TODO: output = <PROTEIN>_nvt.tpr - TIP: equilibrate_output
+        equilibrate(conf=equilibrate_conf,
+                    structure_file=em_energy_structure,
+                    structure2_file=em_energy_structure,
+                    topology=topology,
+                    output=equilibrate_output)
         # Reuse energy minimization
         equilibrate_structure = join(output_path, name + '_eq.gro')
         equilibrate_file = join(output_path, name + '_eq.edr')
