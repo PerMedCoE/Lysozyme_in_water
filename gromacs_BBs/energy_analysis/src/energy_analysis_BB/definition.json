@@ -1,0 +1,27 @@
+{
+    "short_description": "This is the energy analysis building block short description.",
+    "long_description": "This is the energy analysis building block long description.",
+    "use_description": "long",
+    "parameters": {
+        "default": [
+            {
+                "type": "input",
+                "name": "em_energy",
+                "format": "file",
+                "description": "EM Energy."
+            },
+            {
+                "type": "input",
+                "name": "energy_selection",
+                "format": "file",
+                "description": "Energy selection."
+            },
+            {
+                "type": "output",
+                "name": "energy_result",
+                "format": "file",
+                "description": "Energy result."
+            }
+        ]
+    }
+}

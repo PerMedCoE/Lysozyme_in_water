@@ -10,6 +10,8 @@ module load singularity/3.5.2
 module use /apps/modules/modulefiles/tools/COMPSs/libraries
 module load permedcoe
 
+export PERMEDCOE_IMAGES=$(pwd)/../../gromacs_BBs/image/
+
 # Submit application
 pycompss job submit \
     --job_name=Lysozyme_in_water \

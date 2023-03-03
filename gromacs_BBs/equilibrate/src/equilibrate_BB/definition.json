@@ -1,0 +1,39 @@
+{
+    "short_description": "This is the equilibrate building block short description.",
+    "long_description": "This is the equilibrate building block long description.",
+    "use_description": "long",
+    "parameters": {
+        "default": [
+            {
+                "type": "input",
+                "name": "conf",
+                "format": "file",
+                "description": "Configuration file."
+            },
+            {
+                "type": "input",
+                "name": "structure_file",
+                "format": "file",
+                "description": "Structure file."
+            },
+            {
+                "type": "input",
+                "name": "structure2_file",
+                "format": "file",
+                "description": "Structure 2 file."
+            },
+            {
+                "type": "input",
+                "name": "topology",
+                "format": "file",
+                "description": "Topology file."
+            },
+            {
+                "type": "output",
+                "name": "result",
+                "format": "file",
+                "description": "Equilibration result."
+            }
+        ]
+    }
+}

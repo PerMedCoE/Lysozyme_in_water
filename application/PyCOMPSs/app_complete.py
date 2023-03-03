@@ -22,14 +22,14 @@ from os.path import isfile, join
 # To set building block debug mode
 from permedcoe import set_debug
 # Import building block entry points
-from add_solvate import add_solvate
-from assemble_tpr import assemble_tpr
-from define_box import define_box
-from energy_analysis import energy_analysis
-from energy_minimization import energy_minimization
-from generate_topology import generate_topology, adapt_itp, clean_itps
-from replace_solvent_with_ions import replace_solvent_with_ions
-from equilibrate import equilibrate
+from add_solvate_BB import add_solvate
+from assemble_tpr_BB import assemble_tpr
+from define_box_BB import define_box
+from energy_analysis_BB import energy_analysis
+from energy_minimization_BB import energy_minimization
+from generate_topology_BB import generate_topology, adapt_itp, clean_itps
+from replace_solvent_with_ions_BB import replace_solvent_with_ions
+from equilibrate_BB import equilibrate
 
 # PyCOMPSs specific imports
 from pycompss.api.api import compss_barrier
