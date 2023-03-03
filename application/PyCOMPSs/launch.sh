@@ -19,6 +19,6 @@ pycompss job submit \
     --exec_time=20 \
     -t \
     --python_interpreter=python3 \
-    app.py ../dataset_small \
+    app.py ../dataset \
            ../output \
            ../config
