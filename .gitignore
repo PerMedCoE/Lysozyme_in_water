@@ -152,7 +152,7 @@ target/
 *.dSYM/
 *.su
 *.idb
-*.pdb
+#*.pdb
 
 # Kernel Module Compile Results
 *.mod*
@@ -171,7 +171,7 @@ dkms.conf
 *.sif
 
 # Avoid dataset
-*dataset*
+*dataset_large*
 
 # Avoid nextflow logs
 .nextflow*
