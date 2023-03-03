@@ -99,7 +99,8 @@ def main(dataset_path, output_path, config_path):
                             structure=em_energy_structure,
                             file=em_energy_file,
                             log=em_energy_log,
-                            trajectory=em_energy_trajectory)
+                            trajectory=em_energy_trajectory,
+                            steps="100")
         # 6th step - Energy analysis (generate xvg image)
         energy_result = join(output_path, name + '_potential.xvg')
         energy_selection = join(config_path, 'energy.selection')
@@ -134,10 +135,11 @@ def main(dataset_path, output_path, config_path):
         energy_analysis(em=equilibrate_file,
                         output=equilibrate_result,
                         selection=temperature_selection)
-        #################################################
-        # Cleanup
-        compss_barrier()
-        clean_itps()
+
+    #################################################
+    # Cleanup
+    compss_barrier()
+    clean_itps()
 
 
 if __name__=='__main__':

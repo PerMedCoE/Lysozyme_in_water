@@ -14,7 +14,9 @@ from permedcoe import FILE_OUT
 from gromacs_BBs_commons.image import GROMACS_CONTAINER
 
 
-SHARED_FOLDER = "/tmp/"
+SHARED_FOLDER = os.environ.get("HOME") + "/tmp/"
+if not os.path.exists(SHARED_FOLDER):
+    os.makedirs(SHARED_FOLDER)
 
 
 @container(engine="SINGULARITY", image=GROMACS_CONTAINER)
