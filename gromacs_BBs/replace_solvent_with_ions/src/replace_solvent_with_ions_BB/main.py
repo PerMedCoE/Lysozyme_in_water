@@ -16,7 +16,7 @@ from replace_solvent_with_ions_BB.definitions import REPLACE_SOLVENT_WITH_IONS_C
 @task(ions=FILE_IN,
       output=FILE_OUT,
       topology=FILE_IN,
-      group={Type:FILE_IN, StdIOStream:STDIN})
+      group=FILE_IN)
 def replace_solvent_with_ions(mode='genion',
                               ions_flag='-s', ions=None,
                               output_flag='-o', output=None,
