@@ -84,8 +84,10 @@ def invoke(arguments, config):
     pdb = arguments.pdb
     structure = arguments.structure
     topology = arguments.topology
+    topology_itp = arguments.topology_itp
     generate_topology(protein=pdb,
                       structure=structure,
-                      topology=topology)
+                      topology=topology,
+                      topology_itp=topology_itp)
 
 
