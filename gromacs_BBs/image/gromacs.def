@@ -9,4 +9,9 @@ Stage: build
     apt-get update && \
     apt-get install -y gromacs && \
     apt-get install -y gromacs-openmpi
+    echo '#!/bin/bash
+last=${@:$#} # last parameter
+other=${*%${!#}} # all parameters except the last
+gmx genion $other < $last' >> /usr/bin/gmx_genion
+    chmod +x /usr/bin/gmx_genion
 
