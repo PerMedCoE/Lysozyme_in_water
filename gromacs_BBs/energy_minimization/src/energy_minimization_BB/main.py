@@ -25,6 +25,7 @@ from energy_minimization_BB.definitions import ENERGY_MINIMIZATION_CONTAINER
       log=FILE_OUT,
       trajectory=FILE_OUT)
 def energy_minimization(mode='mdrun',
+                        mpithreads_flag='-ntmpi', mpithreads='1',
                         ompthreads_flag='-ntomp', ompthreads='0',
                         em_energy_flag='-s', energy=None,
                         em_energy_structure_flag='-c', structure=None,
@@ -32,7 +33,7 @@ def energy_minimization(mode='mdrun',
                         em_energy_log_flag='-g', log=None,
                         em_energy_trajectory_flag='-o', trajectory=None,
                         steps_flags='-nsteps', steps='-2'):
-    # Command: gmx mdrun -v -ntomp 0 -s 1aki_em.tpr -c 1aki_em.gro -e 1aki_em.edr -g 1aki_md.log -o 1aki_traj.trr
+    # Command: gmx mdrun -v -ntmpi 1 -ntomp 0 -s 1aki_em.tpr -c 1aki_em.gro -e 1aki_em.edr -g 1aki_md.log -o 1aki_traj.trr
     pass
 
 
