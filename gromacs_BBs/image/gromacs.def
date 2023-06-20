@@ -1,17 +1,20 @@
-Bootstrap: library
+Bootstrap: docker
 From: ubuntu:18.04
-Stage: build
 
 %post
-    apt-get update && \
-    apt-get install -y software-properties-common && \
-    add-apt-repository universe && \
-    apt-get update && \
-    apt-get install -y gromacs && \
+    apt-get update 
+    apt-get install -y software-properties-common 
+    add-apt-repository universe
+    apt-get update 
+    apt-get install -y gromacs 
     apt-get install -y gromacs-openmpi
     echo '#!/bin/bash
 last=${@:$#} # last parameter
 other=${*%${!#}} # all parameters except the last
 gmx genion $other < $last' >> /usr/bin/gmx_genion
     chmod +x /usr/bin/gmx_genion
-
+    echo '#!/bin/bash
+last=${@:$#} # last parameter
+other=${*%${!#}} # all parameters except the last
+gmx energy $other < $last' >> /usr/bin/gmx_energy
+    chmod +x /usr/bin/gmx_energy
