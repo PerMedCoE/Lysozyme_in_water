@@ -52,9 +52,11 @@ def invoke(arguments, config):
     filename = arguments.filename
     log = arguments.log
     trajectory = arguments.trajectory
+    steps = arguments.steps  
     energy_minimization(energy=energy,
                         structure=structure,
                         file=filename,
                         log=log,
+                        steps=steps,
                         trajectory=trajectory)
 
