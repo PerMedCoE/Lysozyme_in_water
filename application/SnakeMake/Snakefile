@@ -22,7 +22,8 @@ for f in listdir(dataset_path):
         protein_names.append(f.split('.')[0])
 
 rule final:
-    input: expand("{protein}_nvt.tpr",protein=protein_names),
+    input: expand("{protein}_temperature.xvg",protein=protein_names),
+           expand("{protein}_energy.xvg",protein=protein_names)
 
 rule generate_topology:
     input: pdb=dataset_path+"{protein}.pdb"
@@ -43,15 +44,16 @@ rule add_solvate:
     input: structure_newbox="{protein}_newbox.gro",
            topology="{protein}.top"
     output: protein_solv = "{protein}_solv.gro"
+            
     shell:
         "add_solvate_BB --structure_newbox {input.structure_newbox} --topology {input.topology} --protein_solv {output.protein_solv}"
 
 rule assemble_tpr:
     input: 
-           ions_conf=lambda wildcards: config_folder+"minim.mdp" if wildcards.postfix == "em"  else config_folder+"ions.mdp",
-           protein_solv =lambda wildcards: "{protein}_solv_ions.gro" if wildcards.postfix == "em"  else "{protein}_solv.gro",
+           ions_conf=lambda wildcards: config_folder+"minim.mdp" if wildcards.postfix == "energy"  else config_folder+"ions.mdp",
+           protein_solv =lambda wildcards: "{protein}_solv_ions.gro" if wildcards.postfix == "energy"  else "{protein}_solv.gro",
            topology="{protein}.top",
-    output: group="{protein}_{postfix,(em|ions)}.tpr"
+    output: group="{protein}_{postfix,(energy|ions)}.tpr"
     shell:
         "assemble_tpr_BB --ions_conf {input.ions_conf} --protein_solv {input.protein_solv} --topology {input.topology}  --group {output.group}" 
 
@@ -65,34 +67,27 @@ rule replace_solvent_with_ions:
         "replace_solvent_with_ions_BB --ions {input.ions} --topology {input.topology} --group {input.group} --protein_solv_ions {output.protein_solv_ions}"
 
 rule energy_minimization:
-    input: energy="{protein}_em.tpr",
-    output: structure="{protein}_em.gro",
-            file="{protein}_em.edr",
-            log="{protein}_em.log",
-            trajectory="{protein}_em.trr"
+    input: energy="{protein}_{post}.tpr",
+    output: structure="{protein}_{post}.gro",
+            file="{protein}_{post}.edr",
+            log="{protein}_{post}.log",
+            trajectory="{protein}_{post}.trr"
     shell:
         "energy_minimization_BB --steps 100 --energy {input.energy} --structure {output.structure} --file {output.file} --log {output.log} --trajectory {output.trajectory}" 
 
 rule energy_analysis: 
-    input: em_energy="{protein}_em.edr",
-           energy_selection=config_folder+"energy.selection",
+    input: em_energy="{protein}_{type}.edr",
+           energy_selection=config_folder+"{type}.selection",
     output:
-           energy_result="{protein}_potential.xvg"
+           energy_result="{protein}_{type}.xvg"
     shell: 
       "energy_analysis_BB --em_energy {input.em_energy} --energy_selection {input.energy_selection} --energy_result {output.energy_result}" 
 
 rule equilibrate:
     input: conf=config_folder + "nvt.mdp",
-            structure_file="{protein}_em.gro",
-            structure2_file="{protein}_em.gro",
+            structure_file="{protein}_energy.gro",
+            structure2_file="{protein}_energy.gro",
             topology="{protein}.top"
-    output: result = "{protein}_nvt.tpr"
+    output: result = "{protein}_temperature.tpr"
     shell: 
         "equilibrate_BB --conf {input.conf} --structure_file {input.structure_file} --structure2_file {input.structure2_file} --topology {input.topology} --result {output.result}"
-
-
-#equilibrate_BB --conf $config_folder/nvt.mdp --structure_file ${protein}_em.gro --structure2_file ${protein}_em.gro --topology ${protein}.top --result ${protein}_nvt.tpr  
-#
-#energy_minimization_BB --steps 100 --energy ${protein}_nvt.tpr --structure ${protein}_eq.gro --file ${protein}_eq.edr --log ${protein}_eq.log --trajectory ${protein}_eq.trr  
-#
-#energy_analysis_BB --em_energy ${protein}_eq.edr --energy_selection $config_folder/temperature.selection --energy_result ${protein}_temperature.xvg  
