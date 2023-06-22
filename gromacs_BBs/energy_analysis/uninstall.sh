@@ -2,6 +2,6 @@
 
 echo "Uninstalling..."
 
-python3 -m pip uninstall -y energy_analysis_BB
+python3 -m pip uninstall -y energy-analysis-BB
 
 echo "----- Uninstall finished -----"

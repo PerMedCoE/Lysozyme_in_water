@@ -2,6 +2,6 @@
 
 echo "Uninstalling..."
 
-python3 -m pip uninstall -y generate_topology_BB
+python3 -m pip uninstall -y generate-topology-BB
 
 echo "----- Uninstall finished -----"

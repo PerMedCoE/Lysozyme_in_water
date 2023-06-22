@@ -2,6 +2,6 @@
 
 echo "Uninstalling..."
 
-python3 -m pip uninstall -y assemble_tpr_BB
+python3 -m pip uninstall -y assemble-tpr-BB
 
 echo "----- Uninstall finished -----"

@@ -2,6 +2,6 @@
 
 echo "Uninstalling..."
 
-python3 -m pip uninstall -y energy_minimization_BB
+python3 -m pip uninstall -y energy-minimization-BB
 
 echo "----- Uninstall finished -----"

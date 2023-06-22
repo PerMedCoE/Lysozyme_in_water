@@ -2,6 +2,6 @@
 
 echo "Uninstalling..."
 
-python3 -m pip uninstall -y define_box_BB
+python3 -m pip uninstall -y define-box-BB
 
 echo "----- Uninstall finished -----"
