@@ -1,11 +1,17 @@
 #!/usr/bin/env bash
 
-export PERMEDCOE_IMAGES="$(pwd)/../../gromacs_BBs/image/"
+CURRENT_DIR=$(pwd)
+
+export PERMEDCOE_IMAGES="${CURRENT_DIR}/../../gromacs_BBs/image/"
+
+DATASET_PATH=${CURRENT_DIR}/../dataset_small
+OUTPUT_PATH=${CURRENT_DIR}/../PyCOMPSs/output
+CONFIG_PATH=${CURRENT_DIR}/../config
 
 # Explicit call with PyCOMPSs runcompss command:
-runcompss -d -g --python_interpreter=python3 \
+runcompss -g --python_interpreter=python3 \
      app_complete.py \
-     ~/github/projects/PerMedCoE/Lysozyme_in_water/application/dataset \
-     ~/github/projects/PerMedCoE/Lysozyme_in_water/application/output \
-     ~/github/projects/PerMedCoE/Lysozyme_in_water/application/config
+     ${DATASET_PATH} \
+     ${OUTPUT_PATH} \
+     ${CONFIG_PATH}
 
