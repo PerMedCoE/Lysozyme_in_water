@@ -16,6 +16,7 @@ This example reaches up to stage 4 (energy minimization).
 """
 
 import sys
+import time
 from os import listdir
 from os.path import isfile, join
 
@@ -37,6 +38,7 @@ from pycompss.api.api import compss_barrier
 
 def main(dataset_path, output_path, config_path):
     print("Starting Lysozyme in Water")
+    start_time = time.time()
 
     protein_names = []
     protein_pdbs = []
@@ -139,6 +141,11 @@ def main(dataset_path, output_path, config_path):
         # Cleanup
         compss_barrier()
         clean_itps()
+
+        #################################################
+        # Elapsed time
+        elapsed_time = time.time() - start_time
+        print("Elapsed time: %s" % str(elapsed_time))
 
 
 if __name__=='__main__':
