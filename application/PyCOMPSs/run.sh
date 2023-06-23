@@ -5,7 +5,7 @@ CURRENT_DIR=$(pwd)
 export PERMEDCOE_IMAGES="${CURRENT_DIR}/../../gromacs_BBs/image/"
 
 DATASET_PATH=${CURRENT_DIR}/../dataset_small
-OUTPUT_PATH=${CURRENT_DIR}/../PyCOMPSs/output
+OUTPUT_PATH=${CURRENT_DIR}/../output
 CONFIG_PATH=${CURRENT_DIR}/../config
 
 # Explicit call with PyCOMPSs runcompss command:
