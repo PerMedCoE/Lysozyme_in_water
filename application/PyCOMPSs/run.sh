@@ -8,6 +8,9 @@ DATASET_PATH=${CURRENT_DIR}/../dataset_small
 OUTPUT_PATH=${CURRENT_DIR}/../output
 CONFIG_PATH=${CURRENT_DIR}/../config
 
+rm -rf ${OUTPUT_PATH}
+chmod -p ${OUTPUT_PATH}
+
 # Explicit call with PyCOMPSs runcompss command:
 runcompss -g --python_interpreter=python3 \
      app_complete.py \
