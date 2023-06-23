@@ -13,12 +13,11 @@ from energy_analysis_BB.definitions import ENERGY_ANALYSIS_CONTAINER
 
 
 @container(engine="SINGULARITY", image=ENERGY_ANALYSIS_CONTAINER)
-@binary(binary='gmx')
+@binary(binary='gmx_energy')
 @task(em=FILE_IN,
       output=FILE_OUT,
-      selection={Type:FILE_IN, StdIOStream:STDIN})
-def energy_analysis(mode='energy',
-                    em_flag='-f', em=None,
+      selection=FILE_IN)
+def energy_analysis(em_flag='-f', em=None,
                     output_flag='-o', output=None,
                     selection=None):
     # Command: gmx energy -f em.edr -o output.xvg

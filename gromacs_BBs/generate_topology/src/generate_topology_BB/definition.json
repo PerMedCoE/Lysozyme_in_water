@@ -21,7 +21,14 @@
                 "name": "topology",
                 "format": "file",
                 "description": "Topology file."
-            }
+            },
+	    {
+    		"type": "output",
+    		"name": "topology_itp",
+    		"format": "file",
+    		"description": "Topology itp file."
+	    }
+
         ]
     }
 }

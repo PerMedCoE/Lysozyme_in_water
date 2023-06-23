@@ -33,7 +33,14 @@
                 "name": "trajectory",
                 "format": "file",
                 "description": "Result trajectory."
+            },
+            {
+                "type": "input",
+                "name": "steps",
+                "format": "int",
+                "description": "Number of steps"
             }
+
         ]
     }
 }

@@ -1,0 +1,93 @@
+import sys
+from os import listdir
+from os.path import isfile, join
+
+# To set building block debug mode
+from permedcoe import set_debug
+# Import building block entry points
+from add_solvate_BB import add_solvate
+from assemble_tpr_BB import assemble_tpr
+from define_box_BB import define_box
+from energy_analysis_BB import energy_analysis
+from energy_minimization_BB import energy_minimization
+from generate_topology_BB import generate_topology, adapt_itp, clean_itps
+from replace_solvent_with_ions_BB import replace_solvent_with_ions
+from equilibrate_BB import equilibrate
+
+dataset_path="../dataset/"
+config_folder="../config/"
+protein_names = []
+for f in listdir(dataset_path):
+    if isfile(join(dataset_path, f)):
+        protein_names.append(f.split('.')[0])
+
+rule final:
+    input: expand("{protein}_temperature.xvg",protein=protein_names),
+           expand("{protein}_energy.xvg",protein=protein_names)
+
+rule generate_topology:
+    input: pdb=dataset_path+"{protein}.pdb"
+    output: structure = "{protein}.gro",  
+            topology="{protein}.top",
+            topology_itp="{protein}_top.itp"
+    shell:
+        "generate_topology_BB --pdb {input.pdb} --structure {output.structure} --topology {output.topology} --topology_itp {output.topology_itp}"
+
+rule define_box:
+    input: structure="{protein}.gro"
+    output: structure_newbox="{protein}_newbox.gro"
+    shell:
+        "define_box_BB --structure {input.structure} --structure_newbox {output.structure_newbox}"
+
+
+rule add_solvate:
+    input: structure_newbox="{protein}_newbox.gro",
+           topology="{protein}.top"
+    output: protein_solv = "{protein}_solv.gro"
+            
+    shell:
+        "add_solvate_BB --structure_newbox {input.structure_newbox} --topology {input.topology} --protein_solv {output.protein_solv}"
+
+rule assemble_tpr:
+    input: 
+           ions_conf=lambda wildcards: config_folder+"minim.mdp" if wildcards.postfix == "energy"  else config_folder+"ions.mdp",
+           protein_solv =lambda wildcards: "{protein}_solv_ions.gro" if wildcards.postfix == "energy"  else "{protein}_solv.gro",
+           topology="{protein}.top",
+    output: group="{protein}_{postfix,(energy|ions)}.tpr"
+    shell:
+        "assemble_tpr_BB --ions_conf {input.ions_conf} --protein_solv {input.protein_solv} --topology {input.topology}  --group {output.group}" 
+
+rule replace_solvent_with_ions:
+    input: ions="{protein}_ions.tpr",
+           topology="{protein}.top",
+           group=config_folder+"genion.group"
+    output:
+        protein_solv_ions="{protein}_solv_ions.gro"
+    shell:
+        "replace_solvent_with_ions_BB --ions {input.ions} --topology {input.topology} --group {input.group} --protein_solv_ions {output.protein_solv_ions}"
+
+rule energy_minimization:
+    input: energy="{protein}_{post}.tpr",
+    output: structure="{protein}_{post}.gro",
+            file="{protein}_{post}.edr",
+            log="{protein}_{post}.log",
+            trajectory="{protein}_{post}.trr"
+    shell:
+        "energy_minimization_BB --steps 100 --energy {input.energy} --structure {output.structure} --file {output.file} --log {output.log} --trajectory {output.trajectory}" 
+
+rule energy_analysis: 
+    input: em_energy="{protein}_{type}.edr",
+           energy_selection=config_folder+"{type}.selection",
+    output:
+           energy_result="{protein}_{type}.xvg"
+    shell: 
+      "energy_analysis_BB --em_energy {input.em_energy} --energy_selection {input.energy_selection} --energy_result {output.energy_result}" 
+
+rule equilibrate:
+    input: conf=config_folder + "nvt.mdp",
+            structure_file="{protein}_energy.gro",
+            structure2_file="{protein}_energy.gro",
+            topology="{protein}.top"
+    output: result = "{protein}_temperature.tpr"
+    shell: 
+        "equilibrate_BB --conf {input.conf} --structure_file {input.structure_file} --structure2_file {input.structure2_file} --topology {input.topology} --result {output.result}"
