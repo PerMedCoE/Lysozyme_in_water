@@ -23,12 +23,14 @@ From: Virginia Tech Department of Biochemistry
   - [Repository contents](#repository-contents)
   - [Requirements](#requirements)
   - [Usage](#usage)
-    - [1<sup>st</sup> - Install `permedcoe` package](#1supstsup---install-permedcoe-package)
-    - [2<sup>th</sup> - Download the Lysozyme in water sources](#2supthsup---download-the-lysozyme-in-water-sources)
-    - [3<sup>th</sup> - Create the Singularity container](#3supthsup---create-the-singularity-container)
-    - [4<sup>nd</sup> - Set the Singularity image in the `gromacs_BBs` package](#4supndsup---set-the-singularity-image-in-the-gromacs_bbs-package)
-    - [5<sup>th</sup> - Install the `gromacs_BBs` Building Blocks](#5supthsup---install-the-gromacs_bbs-building-blocks)
-    - [6<sup>th</sup> - Execute the `lysozyme_in_water` application](#6supthsup---execute-the-lysozyme_in_water-application)
+    - [1st - Install `permedcoe` package](#1st---install-permedcoe-package)
+    - [2th - Download the Lysozyme in water sources](#2th---download-the-lysozyme-in-water-sources)
+    - [3th - Create the Singularity container](#3th---create-the-singularity-container)
+    - [4th - Install the `gromacs_BBs` Building Blocks](#4th---install-the-gromacs_bbs-building-blocks)
+    - [5th - Execute the `lysozyme_in_water` application](#5th---execute-the-lysozyme_in_water-application)
+      - [5.1 **Bare**: Sequential implementation as a bash script using the building blocks directly.](#51-bare-sequential-implementation-as-a-bash-script-using-the-building-blocks-directly)
+      - [5.2 **SnakeMake**: Parallelized with SnakeMake.](#52-snakemake-parallelized-with-snakemake)
+      - [5.3 **PyCOMPSs**: Parallelized with PyCOMPSs.](#53-pycompss-parallelized-with-pycompss)
   - [License](#license)
   - [Contact](#contact)
 
@@ -51,10 +53,7 @@ From: Virginia Tech Department of Biochemistry
 ### 1<sup>st</sup> - Install `permedcoe` package
 
   ``` bash
-  git clone https://github.com/PerMedCoE/permedcoe.git
-  cd permedcoe
-  ./install.sh
-  cd ..
+  python3 -m pip install permecoe
   ```
 
 ### 2<sup>th</sup> - Download the Lysozyme in water sources
@@ -71,28 +70,39 @@ From: Virginia Tech Department of Biochemistry
   cd ..
   ```
 
-### 4<sup>nd</sup> - Set the Singularity image in the `gromacs_BBs` package
-
-  ```shell
-  # Edit src/gromacs_BBs_commons/image.py
-  # Set the SAMPLE_CONTAINER variable:
-  #    It is currently set to: $HOME/github/projects/PerMedCoE/Lysozyme_in_water/gromacs_BBs/image/gromacs.sif
-  #    And that path should be where the gromacs.sif file has been created in the previous step.
-  ```
-
-### 5<sup>th</sup> - Install the `gromacs_BBs` Building Blocks
+### 4<sup>th</sup> - Install the `gromacs_BBs` Building Blocks
 
   ``` bash
-  ./install.sh
+  ./install_BBs.sh
   cd ..
   ```
 
-### 6<sup>th</sup> - Execute the `lysozyme_in_water` application
+### 5<sup>th</sup> - Execute the `lysozyme_in_water` application
+
+There are three versions of the `lysozyme_in_water` application:
+
+#### 5.1 **Bare**: Sequential implementation as a bash script using the building blocks directly.
+  ``` bash
+  cd application/Bare
+  ./steps.sh
+  # Check output folder (use "grace" to visualize xvg files).
+  cd ../..
+  ```
+
+#### 5.2 **SnakeMake**: Parallelized with SnakeMake.
+  ``` bash
+  cd application/SnakeMake
+  snakemake Snakefile
+  # Check output folder (use "grace" to visualize xvg files).
+  cd ../..
+  ```
+
+#### 5.3 **PyCOMPSs**: Parallelized with PyCOMPSs.
 
   ``` bash
   cd application/PyCOMPSs
   ./launch.sh
-  # See output folder (use "grace" to visualize xvg files).
+  # Check output folder (use "grace" to visualize xvg files).
   cd ../..
   ```
 
@@ -104,3 +114,6 @@ From: Virginia Tech Department of Biochemistry
 
 <https://permedcoe.eu/contact/>
 
+This software has been developed for the [PerMedCoE project](https://permedcoe.eu/), funded by the European Commission (EU H2020 [951773](https://cordis.europa.eu/project/id/951773)).
+
+![](https://permedcoe.eu/wp-content/uploads/2020/11/logo_1.png "PerMedCoE")
