@@ -1,0 +1,33 @@
+{
+    "short_description": "This is the replace solvent with ions building block short description.",
+    "long_description": "This is the replace solvent with ions building block long description.",
+    "use_description": "long",
+    "parameters": {
+        "default": [
+            {
+                "type": "input",
+                "name": "ions",
+                "format": "file",
+                "description": "Ions file."
+            },
+            {
+                "type": "input",
+                "name": "topology",
+                "format": "file",
+                "description": "Topology file."
+            },
+            {
+                "type": "input",
+                "name": "group",
+                "format": "file",
+                "description": "Group file."
+            },
+            {
+                "type": "output",
+                "name": "protein_solv_ions",
+                "format": "file",
+                "description": "Protein solvate ions."
+            }
+        ]
+    }
+}

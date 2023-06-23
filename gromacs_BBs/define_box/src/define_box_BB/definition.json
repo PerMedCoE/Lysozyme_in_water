@@ -1,0 +1,21 @@
+{
+    "short_description": "This is the define box building block short description.",
+    "long_description": "This is the define box building block long description.",
+    "use_description": "long",
+    "parameters": {
+        "default": [
+            {
+                "type": "input",
+                "name": "structure",
+                "format": "file",
+                "description": "Structure file."
+            },
+            {
+                "type": "output",
+                "name": "structure_newbox",
+                "format": "file",
+                "description": "Structure new box file."
+            }
+        ]
+    }
+}

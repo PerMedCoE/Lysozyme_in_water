@@ -1,0 +1,39 @@
+{
+    "short_description": "This is the energy minimization building block short description.",
+    "long_description": "This is the energy minimization building block long description.",
+    "use_description": "long",
+    "parameters": {
+        "default": [
+            {
+                "type": "input",
+                "name": "energy",
+                "format": "file",
+                "description": "Energy file."
+            },
+            {
+                "type": "output",
+                "name": "structure",
+                "format": "file",
+                "description": "Structure file."
+            },
+            {
+                "type": "output",
+                "name": "filename",
+                "format": "file",
+                "description": "File name."
+            },
+            {
+                "type": "output",
+                "name": "log",
+                "format": "file",
+                "description": "Log file."
+            },
+            {
+                "type": "output",
+                "name": "trajectory",
+                "format": "file",
+                "description": "Result trajectory."
+            }
+        ]
+    }
+}

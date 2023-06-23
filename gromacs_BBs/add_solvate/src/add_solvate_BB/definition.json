@@ -1,0 +1,27 @@
+{
+    "short_description": "This is the add solvate building block short description.",
+    "long_description": "This is the add solvate building block long description.",
+    "use_description": "long",
+    "parameters": {
+        "default": [
+            {
+                "type": "input",
+                "name": "structure_newbox",
+                "format": "file",
+                "description": "Structure new box file."
+            },
+            {
+                "type": "input",
+                "name": "topology",
+                "format": "file",
+                "description": "Topology file."
+            },
+            {
+                "type": "output",
+                "name": "protein_solv",
+                "format": "file",
+                "description": "Protein solvate."
+            }
+        ]
+    }
+}

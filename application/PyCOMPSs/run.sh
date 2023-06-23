@@ -1,19 +1,17 @@
 #!/usr/bin/env bash
 
-permedcoe execute application app.py ~/github/projects/PerMedCoE/Lysozyme_in_water/application/dataset \
-                                     ~/github/projects/PerMedCoE/Lysozyme_in_water/application/output \
-                                     ~/github/projects/PerMedCoE/Lysozyme_in_water/application/config \
-                                     --workflow_manager pycompss --flags "-d -g --python_interpreter=python3"
+CURRENT_DIR=$(pwd)
 
-# Using shortcuts:
-# permedcoe x app app.py ~/github/projects/PerMedCoE/Lysozyme_in_water/application/dataset \
-#                        ~/github/projects/PerMedCoE/Lysozyme_in_water/application/output \
-#                        ~/github/projects/PerMedCoE/Lysozyme_in_water/application/config \
-#                        -w pycompss --flags "-d -g --python_interpreter=python3"
+export PERMEDCOE_IMAGES="${CURRENT_DIR}/../../gromacs_BBs/image/"
+
+DATASET_PATH=${CURRENT_DIR}/../dataset_small
+OUTPUT_PATH=${CURRENT_DIR}/../output
+CONFIG_PATH=${CURRENT_DIR}/../config
 
 # Explicit call with PyCOMPSs runcompss command:
-# runcompss -d -g --python_interpreter=python3 \
-#     app.py \
-#     ~/github/projects/PerMedCoE/Lysozyme_in_water/application/dataset \
-#     ~/github/projects/PerMedCoE/Lysozyme_in_water/application/output \
-#     ~/github/projects/PerMedCoE/Lysozyme_in_water/application/config
+runcompss -g --python_interpreter=python3 \
+     app_complete.py \
+     ${DATASET_PATH} \
+     ${OUTPUT_PATH} \
+     ${CONFIG_PATH}
+

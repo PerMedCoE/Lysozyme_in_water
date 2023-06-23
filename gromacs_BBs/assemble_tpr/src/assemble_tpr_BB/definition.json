@@ -1,0 +1,33 @@
+{
+    "short_description": "This is the assemble tpr building block short description.",
+    "long_description": "This is the assemble tpr building block long description.",
+    "use_description": "long",
+    "parameters": {
+        "default": [
+            {
+                "type": "input",
+                "name": "ions_conf",
+                "format": "file",
+                "description": "Ions configuration."
+            },
+            {
+                "type": "input",
+                "name": "protein_solv",
+                "format": "file",
+                "description": "Protein solvate."
+            },
+            {
+                "type": "input",
+                "name": "topology",
+                "format": "file",
+                "description": "Topology."
+            },
+            {
+                "type": "output",
+                "name": "group",
+                "format": "file",
+                "description": "Group."
+            }
+        ]
+    }
+}
