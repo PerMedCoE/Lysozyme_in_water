@@ -2,7 +2,7 @@
 set -e
 mkdir -p out
 cd out
-dataset_folder=../../../../dataset_small/
+dataset_folder=../../dataset_small/
 config_folder=../../config
 output_folder=.
 logfile=../out.log
@@ -20,7 +20,7 @@ assemble_tpr_BB --ions_conf $config_folder/ions.mdp --protein_solv $output_folde
 echo "Replacing solvent"
 replace_solvent_with_ions_BB --ions $output_folder/${protein}_ions.tpr --topology $output_folder/${protein}.top --group $config_folder/genion.group --protein_solv_ions $output_folder/${protein}_solv_ions.gro &>> $logfile
 echo "Assembling"
-assemble_tpr_BB --ions_conf $output_folder/minim.mdp --protein_solv $output_folder/${protein}_solv_ions.gro --topology $output_folder/${protein}.top --group $output_folder/${protein}_em.tpr     &>> $logfile
+assemble_tpr_BB --ions_conf $config_folder/minim.mdp --protein_solv $output_folder/${protein}_solv_ions.gro --topology $output_folder/${protein}.top --group $output_folder/${protein}_em.tpr     &>> $logfile
 echo "Minimizing energy"
 energy_minimization_BB --steps 100 --energy $output_folder/${protein}_em.tpr --structure $output_folder/${protein}_em.gro --file $output_folder/${protein}_em.edr --log $output_folder/${protein}_em.log --trajectory $output_folder/${protein}_em.trr &>> $logfile
 echo "Analysing energy"
