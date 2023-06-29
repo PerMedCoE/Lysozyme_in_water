@@ -5,7 +5,7 @@ import sys
 
 if len(config) < 2:
     print("Wrong number of arguments")
-    print("snakemake <snakemake args> --config config_dir=../config dataset_dir=../dataset_small")
+    print("snakemake <snakemake args> --config datsetpath configfolderpath")
     sys.exit(1)
 dataset_path= "../"+config["dataset_dir"] + "/"
 config_folder= "../"+config["config_dir"] + "/"
@@ -14,6 +14,7 @@ protein_names = []
 for f in listdir(dataset_path):
     if isfile(join(dataset_path, f)):
         protein_names.append(f.split('.')[0])
+print(dataset_path)
 
 rule final:
     input: expand("{protein}_temperature.xvg",protein=protein_names),
@@ -89,7 +90,5 @@ rule equilibrate:
             structure2_file="{protein}_energy.gro",
             topology="{protein}.top"
     output: result = "{protein}_temperature.tpr"
-    ########## Complete the command line call ############
     shell: 
-        "<name>_BB <arguments>"
-    ######################
+        "equilibrate_BB --conf {input.conf} --structure_file {input.structure_file} --structure2_file {input.structure2_file} --topology {input.topology} --result {output.result}"
